@@ -170,25 +170,8 @@ def Cointegration_Vector(initial_betas, time_series, n):
 
 
 
-
-
-
-
-
 def lagged_corr(x, y, lag):
-    """
-    Compute the Pearson correlation coefficient between x_t and y_{t + lag}.
     
-    Parameters:
-        x (np.array or pd.Series): First time series.
-        y (np.array or pd.Series): Second time series.
-        lag (int): Time lag. 
-                   - if lag > 0, then we correlate x_t with y_{t+lag} (y leads x)
-                   - if lag < 0, then we correlate x_t with y_{t+lag} (x leads y)
-                   
-    Returns:
-        float: Pearson correlation coefficient over the overlapping indices.
-    """
     if lag > 0:
         x_adj = x[:-lag]
         y_adj = y[lag:]
@@ -210,21 +193,6 @@ def lagged_corr(x, y, lag):
 
 
 def find_optimal_lag(x, y, max_lag=50,sparsity=300,min_lag=0,mM = False):
-
-    """
-    Computes the correlation for each lag in [-max_lag, max_lag] and finds the optimal lag.
-
-    Parameters:
-        x, y (np.array or pd.Series): The two time series.
-        max_lag (int): Maximum absolute lag to consider.
-    
-    Returns:
-        dict: Contains:
-              - lags: array of lags considered.
-              - correlations: list of correlation coefficients.
-              - optimal_lag: the lag (integer) with maximum absolute correlation.
-              - optimal_corr: correlation at optimal lag.
-    """
 
     if mM == True:
         min_lag = -max_lag
@@ -254,21 +222,7 @@ def find_optimal_lag(x, y, max_lag=50,sparsity=300,min_lag=0,mM = False):
 
 
 def optimal_lag_with_stability(x, y, max_lag=50, n_subsets=10):
-    """
-    Computes the optimal lag over the full series and assesses its stability over n_subsets.
-
-    Parameters:
-        x, y (np.array or pd.Series): The two time series.
-        max_lag (int): Maximum lag to consider.
-        n_subsets (int): Number of contiguous segments to split the data.
     
-    Returns:
-        dict: Contains:
-              - full_result: optimal lag analysis for the full series.
-              - subset_optimal_lags: list of optimal lag values for each subset.
-              - subset_optimal_corrs: list of optimal correlation values per subset.
-              - lag_stability: standard deviation of subset optimal lags.
-    """
     full_result = find_optimal_lag(x, y, max_lag=max_lag)
     
     n = len(x)
@@ -299,13 +253,8 @@ def optimal_lag_with_stability(x, y, max_lag=50, n_subsets=10):
 
 
 
-
-
-
 def plot_correlation_vs_lag(lags, correlations, asset1, asset2, optimal_lag, optimal_corr):
-    """
-    Plots the correlation coefficients as a function of time lag.
-    """
+ 
     plt.figure(figsize=(10, 5))
     plt.plot(lags, correlations, marker='o')
     plt.xlabel('Time Lag')
@@ -317,13 +266,7 @@ def plot_correlation_vs_lag(lags, correlations, asset1, asset2, optimal_lag, opt
 
 
 def plot_time_series_comparison(x, y, optimal_lag, asset1, asset2):
-    """
-    Plots the original normalized time series and the aligned (lag-adjusted) version.
-    
-    The top panel shows the normalized series for assets \(\{x_t\}\) and \(\{y_t\}\).
-    The bottom panel shows the series with asset2 shifted by the optimal lag \( \ell^* \) so that 
-    the comparison is done over the overlapping interval.
-    """
+
 
     x_norm = (x - np.mean(x)) / np.std(x)
     y_norm = (y - np.mean(y)) / np.std(y)
@@ -340,18 +283,7 @@ def plot_time_series_comparison(x, y, optimal_lag, asset1, asset2):
     time_idx_aligned = np.arange(len(x_aligned))
     
     plt.figure(figsize=(14, 8))
-    
-    """
-    plt.subplot(2, 1, 1)
-    plt.plot(time_idx_full, x_norm, label=f'{asset1} (normalized)', alpha=0.8)
-    plt.plot(time_idx_full, y_norm, label=f'{asset2} (normalized)', alpha=0.8)
-    plt.xlabel('Time Index')
-    plt.title(f'Original Normalized Time Series for {asset1} and {asset2}')
-    plt.legend()
-    plt.grid(True)
-    
 
-    plt.subplot(2, 1, 2)"""
     plt.plot(time_idx_aligned, x_aligned, label=f'{asset1} (normalized)', alpha=0.8)
     plt.plot(time_idx_aligned, y_aligned, label=f'{asset2} shifted by {optimal_lag}', alpha=0.8)
     plt.xlabel('Time Index (Aligned)')
