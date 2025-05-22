@@ -51,11 +51,11 @@ class IBapi(EWrapper, EClient):
 
 
 
-def fetch_data(req_id, contract, duration:str, bar_size: str, what_to_show: str,app:IBapi,end_time=None)->pd.DataFrame:
+def fetch_data(req_id, contract, duration:str, bar_size: str, what_to_show: str,app:IBapi,end_time=None,v:bool=True)->pd.DataFrame:
     app.data_ready.clear()
     app.historical_data.clear()
     end_time = datetime.datetime.utcnow().strftime("%Y%m%d-%H:%M:%S") if not end_time else end_time
-    print(f"Requesting {what_to_show} data (ReqId={req_id})...")
+    print(f"Requesting {what_to_show} data (ReqId={req_id})...") if v else None
     app.reqHistoricalData(
         reqId=req_id,
         contract=contract,
@@ -74,27 +74,28 @@ def fetch_data(req_id, contract, duration:str, bar_size: str, what_to_show: str,
 
   
 
-def HistoricalData(STOCK_SYMBOLS: list, FOREX_PAIRS: list, FUTURE_SYMBOLS: list,what_to_show:str,duration:str,bar_size:str,path:str="Historical_Data")->None:
+def HistoricalData(STOCK_SYMBOLS: list, FOREX_PAIRS: list, FUTURE_SYMBOLS: list,what_to_show:str,duration:str,bar_size:str,path:str="Historical_Data",save:bool=True,v:bool=False)->pd.DataFrame:
     req_id = 1
+    full_data = {}
 
-    print("Connecting to IBKR TWS...")
+    print("Connecting to IBKR TWS...") if v else None
     app = IBapi(what_to_show)
     app.connect('127.0.0.1', 7497, clientId=123)
 
-    print(f"Connected with ID {123} on port 7497 from 127.0.0.1")
+    print(f"Connected with ID {123} on port 7497 from 127.0.0.1") if v else None
     api_thread = threading.Thread(target=app.run, daemon=True)
     api_thread.start()
     time.sleep(1)
+    if v:
+        print(f"Requesting {what_to_show} data...")
+        print(f"Duration: {duration}")
+        print(f"Bar Size: {bar_size}")
+        print(f"Output Path: {path}")
+        print("=====================\n\n")
 
-    print(f"Requesting {what_to_show} data...")
-    print(f"Duration: {duration}")
-    print(f"Bar Size: {bar_size}")
-    print(f"Output Path: {path}")
-    print("=====================\n\n")
 
-
-    print(f"Requested Data: {STOCK_SYMBOLS} \n {FOREX_PAIRS} \n {FUTURE_SYMBOLS}")
-    print("\n=====================\n\n")
+        print(f"Requested Data: {STOCK_SYMBOLS} \n {FOREX_PAIRS} \n {FUTURE_SYMBOLS}")
+        print("\n=====================\n\n")
 
 
     asset_configs = [
@@ -104,16 +105,21 @@ def HistoricalData(STOCK_SYMBOLS: list, FOREX_PAIRS: list, FUTURE_SYMBOLS: list,
     ]
 
     for assets, create_contract, folder in asset_configs:
-        os.makedirs(folder, exist_ok=True)
+        
         for asset in assets:
             contract = create_contract(asset)
-            df= fetch_data(req_id, contract, duration, bar_size, what_to_show,app);      req_id += 1 
+            df= fetch_data(req_id, contract, duration, bar_size, what_to_show,app,v=v);      req_id += 1 
+            full_data.update({asset:df})
 
-            csv_path = f"{folder}/{asset.replace('/', '_')}_{bar_size.replace(' ', '')}_{duration.replace(' ', '')}.csv"
-            df.to_csv(csv_path, index=False)
-            print(f"Saved data for {asset} → {csv_path}")
-    print("Task Successfuly Completed")
+            if save:
+                os.makedirs(folder, exist_ok=True)
+                csv_path = f"{folder}/{asset.replace('/', '_')}_{bar_size.replace(' ', '')}_{duration.replace(' ', '')}.csv"
+                df.to_csv(csv_path, index=False)
+                print(f"Saved data for {asset} → {csv_path}") if v else None
     
-    print("Disconnected from IBKR TWS")
-
-    return True
+    print("Task Successfuly Completed") if v else None
+    
+    print("Disconnected from IBKR TWS") if v else None
+    print("\n\n\n")
+    app.disconnect()
+    return full_data
