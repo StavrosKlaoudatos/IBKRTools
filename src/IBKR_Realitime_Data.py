@@ -23,17 +23,16 @@ MIT LICENSE
 path ="RealTimeData"
 types = ["Stocks", "Forex", "Futures"]
 
-os.makedirs(path, exist_ok=True)
 
-
-
-for type in types:
-    os.makedirs(f"{path}/{type}", exist_ok=True)
 
 
 class RealTimeData(EWrapper, EClient):
     def __init__(self,stocks:list,forex:list,futures:list):
         EClient.__init__(self, self)
+
+        os.makedirs(path, exist_ok=True)
+        for type in types:
+            os.makedirs(f"{path}/{type}", exist_ok=True)
         self.assets = {"Stocks":stocks,"Forex":forex,"Futures":futures}
         self.symbols = stocks + forex + futures
         self.nextId = None
@@ -82,6 +81,8 @@ class RealTimeData(EWrapper, EClient):
         """
         self.nextId = orderId
         self.reqMarketDataType(3)
+
+        
         
         for reqId,contract in enumerate(self.contracts):
             self.reqMktData(reqId, contract, "", False, False, [])
@@ -138,18 +139,7 @@ class RealTimeData(EWrapper, EClient):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-def Save_Realtime_Data(STOCK_SYMBOLS: list, FOREX_PAIRS: list, FUTURE_SYMBOLS: list):
+def Save_Realtime_Data(STOCK_SYMBOLS: list =[], FOREX_PAIRS: list=[], FUTURE_SYMBOLS: list=[]):
   
 
 
