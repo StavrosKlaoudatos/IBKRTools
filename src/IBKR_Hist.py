@@ -54,7 +54,7 @@ class IBapi(EWrapper, EClient):
 def fetch_data(req_id, contract, duration:str, bar_size: str, what_to_show: str,app:IBapi,end_time=None,v:bool=True)->pd.DataFrame:
     app.data_ready.clear()
     app.historical_data.clear()
-    end_time = datetime.datetime.utcnow().strftime("%Y%m%d-%H:%M:%S") if not end_time else end_time
+    end_time = datetime.utcnow().strftime("%Y%m%d-%H:%M:%S") if not end_time else end_time
     print(f"Requesting {what_to_show} data (ReqId={req_id})...") if v else None
     app.reqHistoricalData(
         reqId=req_id,
