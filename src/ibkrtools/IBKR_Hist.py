@@ -1,8 +1,8 @@
 # ibkr_hist.py  ───────────────────────────────────────────
 from ibapi.client import EClient
 from ibapi.wrapper import EWrapper
-from src.utils import *
-from src.truths import *
+from src.ibkrtools.utils import *
+from src.ibkrtools.truths import *
 import threading, datetime as dt, time, os, pandas as pd
 
 
