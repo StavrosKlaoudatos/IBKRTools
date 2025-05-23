@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=42.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ibkrtools"
+version = "0.1.0"
+description = "A modern Python wrapper for Interactive Brokers TWS API"
+readme = "README.md"
+authors = [
+    { name = "Stavros Klaoudatos", email = "stavrosklaoudatos@gmail.com" },
+]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["interactive brokers", "trading", "finance", "algorithmic trading", "market data"]
+dependencies = [
+    "ibapi>=9.81.1",
+    "pandas>=1.3.0",
+    "pytz>=2021.1",
+    "python-dateutil>=2.8.2",
+    "holidays>=0.13",
+]
+
+[project.urls]
+homepage = "https://github.com/StavrosKlaoudatos/IBKRTools"
+repository = "https://github.com/StavrosKlaoudatos/IBKRTools"
+"Bug Tracker" = "https://github.com/StavrosKlaoudatos/IBKRTools/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = ["ibkrtools"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88

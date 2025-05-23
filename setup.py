@@ -1,26 +1,16 @@
 from setuptools import setup, find_packages
 
-# Read the README for the long description
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
-
 setup(
-    # Package metadata
     name="ibkrtools",
     version="0.1.0",
     author="Stavros Klaoudatos",
     author_email="stavrosklaoudatos@gmail.com",
     description="A modern Python wrapper for Interactive Brokers TWS API",
-    long_description=long_description,
+    long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/StavrosKlaoudatos/IBKRTools",
-    
-    # Package structure
-    packages=find_packages(where="src"),
     package_dir={"": "src"},
-    include_package_data=True,
-    
-    # Dependencies
+    packages=find_packages(where="src"),
     python_requires=">=3.8",
     install_requires=[
         "ibapi>=9.81.1",
@@ -29,13 +19,20 @@ setup(
         "python-dateutil>=2.8.2",
         "holidays>=0.13",
     ],
-    
-    # Classifiers
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Financial and Insurance Industry",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Intended Audience :: Financial and Insurance Industry",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Topic :: Office/Business :: Financial",
         "Topic :: Office/Business :: Financial :: Investment",
+        "Topic :: Software Development :: Libraries :: Python Modules",
     ],
+    keywords="interactive brokers, trading, finance, algorithmic trading, market data",
 )
