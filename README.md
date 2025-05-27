@@ -35,41 +35,7 @@ pip install ibkrtools
 - Enabling Ibapi use on TWS
 - Active IBKR account with market data subscriptions
 
-## Quick Start
 
-### Real-time Data
-
-```python
-from ibkrtools import RealTimeData
-
-# Initialize with your symbols
-rt = RealTimeData(
-    stocks=["AAPL", "MSFT"],
-    forex=["EUR/USD"],
-    futures=["ES"]
-)
-
-# Start streaming data
-rt.run()
-```
-
-### Historical Data
-
-```python
-from ibkrtools import HistoricalData
-
-# Fetch historical data
-df = HistoricalData(
-    stock_symbols=["AAPL"],
-    forex_pairs=["EUR/USD"],
-    future_symbols=["ES"],
-    what_to_show="TRADES",
-    duration="1 D",
-    bar_size="1 hour",
-    save=True,
-    path="historical_data"
-)
-```
 
 ## Documentation
 
@@ -115,27 +81,38 @@ HistoricalData(
 
 ## Examples
 
-### Real-time Data with Callbacks
+### Real-time Data
 
 ```python
-def on_data(symbol, data):
-    print(f"{symbol}: {data}")
+from ibkrtools import RealTimeData
 
-rt = RealTimeData(stocks=["AAPL"])
-rt.on_data = on_data
+# Initialize with your symbols
+rt = RealTimeData(
+    stocks=["AAPL", "MSFT"],
+    forex=["EUR/USD"],
+    futures=["ES"]
+)
+
+# Start streaming data
 rt.run()
 ```
 
-### Fetching Historical Data for Multiple Assets
+### Historical Data
 
 ```python
+from ibkrtools import HistoricalData
+
+# Fetch historical data
 df = HistoricalData(
-    stock_symbols=["AAPL", "MSFT"],
-    forex_pairs=["EUR/USD", "GBP/USD"],
-    duration="1 W",
-    bar_size="1 hour"
+    stock_symbols=["AAPL"],
+    forex_pairs=["EUR/USD"],
+    future_symbols=["ES"],
+    what_to_show="TRADES",
+    duration="1 D",
+    bar_size="1 hour",
+    save=True,
+    path="historical_data"
 )
-print(df.head())
 ```
 
 ## Contributing
