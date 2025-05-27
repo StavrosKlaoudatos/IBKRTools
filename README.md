@@ -7,12 +7,11 @@
 
 A modern, user-friendly Python wrapper for Interactive Brokers TWS API, making it easier to download and manage market data.
 
-## Features
+## v1 Features
 
 - **Simple Interface**: Intuitive Pythonic interface for interacting with IBKR TWS API
-- **Real-time Data**: Stream real-time market data for stocks, forex, and futures
+- **Real-time Data**: Stream and save real-time market data for stocks, forex, and futures
 - **Historical Data**: Fetch historical market data with flexible timeframes and bar sizes
-- **Type Hints**: Full Python type hints for better IDE support and code clarity
 - **Thread-Safe**: Built with thread safety in mind for concurrent operations
 - **Comprehensive**: Supports multiple asset classes and data types
 
@@ -76,10 +75,11 @@ RealTimeData(
 )
 ```
 
-#### Methods
-- `run()`: Start the real-time data streaming
-- `stop()`: Stop the data streaming
-- `get_latest(symbol: str)`: Get the latest data for a symbol
+
+#### Return
+
+Fetches and saves in real time, bid, ask, bidsize, and asksize to "RealTimeData/Stocks(Futures, or Forex)"
+
 
 ### HistoricalData
 
@@ -98,9 +98,9 @@ HistoricalData(
 ```
 
 #### Parameters
-- `what_to_show`: Type of market data (e.g., "TRADES", "BID", "ASK", "MIDPOINT")
-- `duration`: Amount of historical data to fetch (e.g., "1 D", "1 M", "1 Y")
-- `bar_size`: Bar size (e.g., "1 min", "5 mins", "1 hour", "1 day")
+- `what_to_show`: Type of market data (see https://ibkrcampus.com/campus/ibkr-api-page/twsapi-doc/#historical-whattoshow)
+- `duration`: Amount of historical data to fetch (see https://ibkrcampus.com/campus/ibkr-api-page/twsapi-doc/#requesting-historical-bars)
+- `bar_size`: Bar size (see https://ibkrcampus.com/campus/ibkr-api-page/twsapi-doc/#requesting-historical-bars)
 - `path`: Directory to save the data
 - `save`: Whether to save the data to disk
 - `verbose`: Enable verbose output
