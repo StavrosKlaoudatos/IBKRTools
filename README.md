@@ -15,6 +15,13 @@ A modern, user-friendly Python wrapper for Interactive Brokers TWS API, making i
 - **Thread-Safe**: Built with thread safety in mind for concurrent operations
 - **Comprehensive**: Supports multiple asset classes and data types
 
+## Upcoming Features
+
+- **Foreign Equities**: Fetch data for non-US equities
+- **Options Data**: Fetch data for options
+- **Data Feeding**: Feed incoming data into your own strategy
+- **Order Placement**: Place orders (OCA, Multileg, etc.)
+
 ## Installation
 
 ```bash
@@ -24,7 +31,8 @@ pip install ibkrtools
 ## Prerequisites
 
 - Python 3.8+
-- Interactive Brokers TWS or IB Gateway installed and running
+- Interactive Brokers TWS installed and running
+- Enabling Ibapi use on TWS
 - Active IBKR account with market data subscriptions
 
 ## Quick Start
