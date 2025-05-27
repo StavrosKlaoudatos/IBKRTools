@@ -121,7 +121,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project, except ibapi is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. The ibapi is 100% developed & owned by Interactive Brokers LLC ("IB"). By using this package (ibpy-native), you are assumed that you agreed the TWS API Non-Commercial License.
 
 ## Disclaimer
 
